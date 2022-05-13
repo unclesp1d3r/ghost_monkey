@@ -4,10 +4,11 @@ Add badges from somewhere like: [shields.io](https://shields.io/)
 
 ![GitHub](https://img.shields.io/github/license/unclesp1d3r/ghost_monkey)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/unclesp1d3r/ghost_monkey)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/unclesp1d3r/ghost_monkey/Go)
 
 # Project Title
 
-Ghost_Monkey is an open-source UNIX backdoor written in Go. I wrote this to mess around with network Go and is heavily influenced by ![Black Hat Go](https://nostarch.com/blackhatgo).
+Ghost_Monkey is an open-source UNIX backdoor written in Go. I wrote this to mess around with network Go and is heavily influenced by [Black Hat Go](https://nostarch.com/blackhatgo).
 
 # DISCLAIMER
 
