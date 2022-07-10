@@ -106,3 +106,4 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/nim,macos,visualstudiocode,windows,linux
 /implant
+/client
