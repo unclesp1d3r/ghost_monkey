@@ -2,7 +2,6 @@
 
 ![GitHub](https://img.shields.io/github/license/unclesp1d3r/ghost_monkey)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/unclesp1d3r/ghost_monkey)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/unclesp1d3r/ghost_monkey/Go)
 
 # Ghost_Monkey
 
