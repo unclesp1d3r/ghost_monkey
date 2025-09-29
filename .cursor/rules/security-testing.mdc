@@ -25,3 +25,44 @@ description: Security and testing guidelines for Ghost_Monkey development
 - Implement proper error handling and connection cleanup
 - Avoid adding persistence or privilege escalation features
 - Treat all input as untrusted
+
+### Authentication Controls (CRITICAL)
+
+**The documented unauthenticated protocol is a security vulnerability and MUST be secured before any production use:**
+
+#### Transport Security
+
+- **Enforce TLS**: All communications must use TLS 1.2+ with strong cipher suites
+- **Certificate validation**: Implement proper certificate pinning and validation
+- **No plaintext**: Never transmit commands or responses in plaintext
+
+#### Authentication Requirements
+
+- **Token-based auth**: Implement JWT or similar token-based authentication
+- **mTLS preferred**: Use mutual TLS for client-server authentication
+- **Request validation**: Validate and authorize every command before execution
+- **Least privilege**: Apply role-based access control (RBAC) with minimal permissions
+
+#### Credential Management
+
+- **Rotation policy**: Implement automatic credential rotation (max 24h for tokens)
+- **Expiration**: Set short-lived credentials with automatic expiration
+- **Secure storage**: Store credentials using secure key management systems
+- **No hardcoded secrets**: Never embed credentials in source code
+
+#### Security Controls
+
+- **Fail-closed**: Default to deny access on authentication failures
+- **Rate limiting**: Implement request rate limiting and abuse detection
+- **Audit logging**: Log all authentication attempts and command executions
+- **Session management**: Implement secure session handling with timeouts
+
+#### Verification Checklist
+
+- [ ] TLS encryption enforced for all connections
+- [ ] Authentication required before command execution
+- [ ] Credentials properly rotated and expired
+- [ ] RBAC implemented with least-privilege access
+- [ ] Authentication failures logged and monitored
+- [ ] No plaintext protocol communications
+- [ ] Security controls tested and verified

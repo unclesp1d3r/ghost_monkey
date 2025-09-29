@@ -45,7 +45,7 @@ sequenceDiagram
 
 - Nim ≥ 2.0
 - `strenc` package (install via `nimble install strenc`)
-- Unix-like operating system
+- Unix-like or Windows (see [AGENTS.md](AGENTS.md) for Windows setup)
 
 ## Installation
 
@@ -54,6 +54,8 @@ sequenceDiagram
    ```bash
    curl https://nim-lang.org/choosenim/init.sh -sSf | sh
    ```
+
+   **Windows users**: See [AGENTS.md](AGENTS.md) for Windows-specific installation instructions.
 
 2. **Install dependencies**:
 
