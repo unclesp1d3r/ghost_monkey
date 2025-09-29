@@ -1,4 +1,4 @@
-# Ghost_Monkey Architecture
+# Architecture
 
 This document provides a detailed overview of the Ghost_Monkey architecture and design decisions.
 
