@@ -1,0 +1,27 @@
+---
+alwaysApply: true
+description: Security and testing guidelines for Ghost_Monkey development
+---
+
+# Security and Testing Guidelines
+
+## Testing Philosophy
+
+- All tests must run in isolated, loopback-only environments
+- Use benign commands for testing (e.g., `whoami`, `pwd`, `ls`)
+- Clean up test artifacts and logs after testing
+- Run as non-privileged users
+
+## Binary Security
+
+- **Rebuild from source**: Always compile on trusted machines
+- **No precompiled binaries**: Don't trust distributed executables
+- **Clean builds**: Remove build artifacts after testing
+- **Secure storage**: Encrypt test logs if they contain sensitive content
+
+## Development Safety
+
+- Use non-privileged accounts for all development
+- Implement proper error handling and connection cleanup
+- Avoid adding persistence or privilege escalation features
+- Treat all input as untrusted

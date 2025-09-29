@@ -1,0 +1,41 @@
+---
+globs: *.md,*.mdc
+description: Documentation standards and formatting guidelines
+---
+
+# Documentation Standards
+
+## Markdown Formatting
+
+- **Prettier exclusion**: Markdown files excluded from Prettier formatting
+- **Mermaid diagrams**: Use standard Mermaid format for architecture diagrams
+- **File references**: Use `[filename.ext](mdc:filename.ext)` format for internal links
+- **Code blocks**: Use appropriate language tags for syntax highlighting
+
+## Documentation Structure
+
+- **AGENTS.md**: Comprehensive development and safety guidelines
+- **README.md**: Project overview and basic usage
+- **LICENSE**: Legal terms and usage restrictions
+- **Cursor rules**: Development standards and patterns
+
+## Mermaid Diagrams
+
+- Use sequence diagrams for protocol flows
+- Use flowcharts for decision trees
+- Include directly in Markdown files for GitHub rendering
+- Follow standard Mermaid syntax and formatting
+
+## Code Documentation
+
+- Include inline comments for complex logic
+- Document socket protocol behavior
+- Explain security considerations
+- Provide usage examples with safety warnings
+
+## Safety Documentation
+
+- Always include ethical use disclaimers
+- Document recommended testing environments
+- Provide clear security warnings
+- Include legal compliance recommendations

@@ -1,0 +1,49 @@
+---
+globs: *.nim,*.nims
+description: Nim development standards and patterns for Ghost_Monkey
+---
+
+# Nim Development Standards
+
+## Code Style
+
+- Use explicit type annotations for clarity
+- Prefer `let` over `var` when possible
+- Use descriptive variable names (`client`, `server`, `command`, `result`)
+- Follow Nim naming conventions (camelCase for variables)
+
+## Dependencies
+
+- Always use `strenc` module for string operations
+- Import order: standard library first, then third-party packages
+- Required imports: `net`, `osproc`, `os`, `strutils`, `strenc`
+
+## Socket Programming
+
+- Always set `OptReuseAddr` for server sockets
+- Use proper error handling with try/except blocks
+- Close sockets explicitly in finally blocks
+- Use `\r\L` for line endings in network protocols
+
+## Security Considerations
+
+- Never hardcode external IP addresses (accept user input)
+- Validate all input before processing
+- Use non-privileged execution contexts
+- Implement proper connection cleanup
+
+## Build Commands
+
+```bash
+# Debug build
+nim c client.nim
+nim c implant.nim
+
+# Release build
+nim c -d:release client.nim
+nim c -d:release implant.nim
+
+# Static analysis
+nim check client.nim
+nim check implant.nim
+```
