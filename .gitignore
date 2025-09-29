@@ -105,5 +105,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/nim,macos,visualstudiocode,windows,linux
-/implant
-/client
+**/implant
+**/client
