@@ -1,0 +1,42 @@
+[book]
+authors = ["Ghost Monkey Contributors"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Ghost Monkey User Guide"
+description = "Comprehensive guide to Ghost Monkey - Educational UNIX backdoor for authorized penetration testing"
+
+[preprocessor.mermaid]
+command = "mdbook-mermaid"
+
+[output.html]
+default-theme = "navy"
+preferred-dark-theme = "navy"
+smart-punctuation = true
+mathjax-support = true
+copy-fonts = true
+
+[output.html.search]
+enable = true
+limit-results = 30
+teaser-word-count = 30
+use-boolean-and = true
+boost-title = 2
+boost-hierarchy = 1
+boost-paragraph = 1
+expand = true
+heading-split-level = 3
+
+[output.html.print]
+enable = true
+
+[output.html.fold]
+enable = false
+level = 0
+
+[output.html.playground]
+editable = false
+copyable = true
+copy-js = true
+line-numbers = false
+runnable = false

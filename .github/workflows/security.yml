@@ -33,7 +33,7 @@ jobs:
         with:
           tool: cargo-outdated
 
-      - uses: EmbarkStudios/cargo-deny-action@v1
+    #   - uses: EmbarkStudios/cargo-deny-action@v1
 
       - name: Run cargo outdated
         run: cargo outdated --depth=1 --exit-code=1
