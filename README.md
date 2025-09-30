@@ -1,11 +1,8 @@
-## Badges
-
-![GitHub](https://img.shields.io/github/license/unclesp1d3r/ghost_monkey)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/unclesp1d3r/ghost_monkey)
+![GitHub](https://img.shields.io/github/license/unclesp1d3r/ghost_monkey) ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/unclesp1d3r/ghost_monkey)
 
 # Ghost_Monkey
 
-Ghost_Monkey is an educational UNIX backdoor written in Nim, designed for authorized penetration testing and OSCP preparation. This tool implements a simple client-server architecture using TCP sockets for remote command execution.
+Ghost_Monkey is an educational UNIX backdoor written in Rust, designed for authorized penetration testing and OSCP preparation. This tool implements a simple client-server architecture using TCP sockets for remote command execution.
 
 ## Overview
 
@@ -14,9 +11,9 @@ Ghost_Monkey provides a lightweight backdoor implementation that demonstrates fu
 ### Key Features
 
 - **Simple TCP Protocol**: Unauthenticated socket-based communication
-- **Cross-Platform**: Built with Nim for Unix-like systems
+- **Cross-Platform**: Built with Rust for Unix-like systems
 - **Educational Focus**: Clean, readable code for learning purposes
-- **Minimal Dependencies**: Uses only standard Nim libraries and `strenc` module
+- **Minimal Dependencies**: Uses only standard Rust libraries
 
 ## Architecture
 
@@ -25,48 +22,39 @@ The system consists of two main components:
 ```mermaid
 sequenceDiagram
     participant Operator as Operator
-    participant Client as client.nim
-    participant Implant as implant.nim
+    participant Client as client
+    participant Implant as implant
     participant OS as Target System
 
     Operator->>Client: Enter command
     Client->>Implant: TCP connect (127.0.0.1:5555)
     Client->>Implant: Send command string
-    Implant->>OS: Execute via execProcess()
+    Implant->>OS: Execute via std::process::Command
     OS-->>Implant: Return stdout/stderr
     Implant-->>Client: Send response
     Client-->>Operator: Display output
 ```
 
-- **[client.nim](client.nim)**: Interactive socket client for command input
-- **[implant.nim](implant.nim)**: Socket server that executes commands via `execProcess()`
+- **client**: Interactive socket client for command input
+- **implant**: Socket server that executes commands via `std::process::Command`
 
 ## Requirements
 
-- Nim ≥ 2.0
-- `strenc` package (install via `nimble install strenc`)
-- Unix-like or Windows (see [AGENTS.md](AGENTS.md) for Windows setup)
+- Rust ≥ 1.70
+- Unix-like or Windows
 
 ## Installation
 
-1. **Install Nim** (if not already installed):
+1. **Install Rust** (if not already installed):
 
    ```bash
-   curl https://nim-lang.org/choosenim/init.sh -sSf | sh
+   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
    ```
 
-   **Windows users**: See [AGENTS.md](AGENTS.md) for Windows-specific installation instructions.
-
-2. **Install dependencies**:
+2. **Build the project**:
 
    ```bash
-   nimble install strenc
-   ```
-
-3. **Build the project**:
-
-   ```bash
-   nimble build
+   cargo build
    ```
 
 ## Usage
@@ -74,22 +62,22 @@ sequenceDiagram
 ### Starting the Implant
 
 ```bash
-./implant [port]  # Default port: 5555
+./target/debug/implant [port]  # Default port: 5555
 ```
 
 ### Connecting with Client
 
 ```bash
-./client  # Connects to 127.0.0.1:5555
+./target/debug/client  # Connects to 127.0.0.1:5555
 ```
 
 ### Example Session
 
 ```bash
-$ ./implant
+$ ./target/debug/implant
 Listening on 127.0.0.1:5555
 
-$ ./client
+$ ./target/debug/client
 Connected to 127.0.0.1:5555
 > whoami
 user
@@ -111,10 +99,10 @@ user
 
 ```bash
 # Debug build
-nimble build
+cargo build
 
 # Release build
-nimble build -d:release
+cargo build --release
 ```
 
 ### Testing
@@ -123,12 +111,12 @@ Run tests in isolated environments only:
 
 ```bash
 # Run unit tests
-nimble test
+cargo test
 
 # Manual integration testing
-./implant &
+./target/debug/implant &
 IMPLANT_PID=$!
-./client
+./target/debug/client
 # Test with benign commands
 kill $IMPLANT_PID
 ```
@@ -138,23 +126,22 @@ kill $IMPLANT_PID
 ```text
 ghost_monkey/
 ├── src/
-│   ├── client.nim      # Socket client implementation
-│   └── implant.nim     # Socket server implementation
+│   ├── client.rs       # Socket client implementation
+│   ├── implant.rs      # Socket server implementation
+│   └── lib.rs          # Library root
 ├── tests/
-│   ├── test_client.nim     # Client unit tests
-│   ├── test_implant.nim    # Implant unit tests
-│   └── test_integration.nim # Integration tests
+│   ├── integration_tests.rs # Integration tests
+│   └── unit_tests.rs   # Unit tests
 ├── docs/
-│   └── ARCHITECTURE.md # Detailed architecture documentation
-├── ghost_monkey.nimble # Nim package configuration
-├── AGENTS.md           # Development guidelines
+│   └── index.md        # Documentation
+├── Cargo.toml          # Rust package configuration
 ├── CONTRIBUTING.md     # Contribution guidelines
 └── README.md           # This file
 ```
 
 ## Contributing
 
-This project follows specific development patterns and safety guidelines. See [AGENTS.md](AGENTS.md) for detailed contribution guidelines.
+This project follows specific development patterns and safety guidelines. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed contribution guidelines.
 
 ## License
 

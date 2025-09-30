@@ -1,9 +1,8 @@
 # Ghost_Monkey
 
-![GitHub](https://img.shields.io/github/license/unclesp1d3r/ghost_monkey)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/unclesp1d3r/ghost_monkey)
+![GitHub](https://img.shields.io/github/license/unclesp1d3r/ghost_monkey) ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/unclesp1d3r/ghost_monkey)
 
-Ghost_Monkey is an educational UNIX backdoor written in Nim, designed for authorized penetration testing and OSCP preparation. This tool implements a simple client-server architecture using TCP sockets for remote command execution.
+Ghost_Monkey is an educational UNIX backdoor written in Rust, designed for authorized penetration testing and OSCP preparation. This tool implements a simple client-server architecture using TCP sockets for remote command execution.
 
 ## Overview
 
@@ -12,9 +11,9 @@ Ghost_Monkey provides a lightweight backdoor implementation that demonstrates fu
 ### Key Features
 
 - **Simple TCP Protocol**: Unauthenticated socket-based communication
-- **Cross-Platform**: Built with Nim for Unix-like systems
+- **Cross-Platform**: Built with Rust for Unix-like systems
 - **Educational Focus**: Clean, readable code for learning purposes
-- **Minimal Dependencies**: Uses only standard Nim libraries and `strenc` module
+- **Minimal Dependencies**: Uses only standard Rust libraries
 
 ## Architecture
 
@@ -23,58 +22,51 @@ The system consists of two main components:
 ```mermaid
 sequenceDiagram
     participant Operator as Operator
-    participant Client as client.nim
-    participant Implant as implant.nim
+    participant Client as client
+    participant Implant as implant
     participant OS as Target System
 
     Operator->>Client: Enter command
     Client->>Implant: TCP connect (127.0.0.1:5555)
     Client->>Implant: Send command string
-    Implant->>OS: Execute via execProcess()
+    Implant->>OS: Execute via std::process::Command
     OS-->>Implant: Return stdout/stderr
     Implant-->>Client: Send response
     Client-->>Operator: Display output
 ```
 
-- **[client.nim](src/client.nim)**: Interactive socket client for command input
-- **[implant.nim](src/implant.nim)**: Socket server that executes commands via `execProcess()`
+- **client**: Interactive socket client for command input
+- **implant**: Socket server that executes commands via `std::process::Command`
 
 ## Quick Start
 
-1. **Install Nim** (if not already installed):
+1. **Install Rust** (if not already installed):
 
    ```bash
-   curl https://nim-lang.org/choosenim/init.sh -sSf | sh
+   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
    ```
 
-2. **Install dependencies**:
+2. **Build the project**:
 
    ```bash
-   nimble install strenc
+   cargo build
    ```
 
-3. **Build the project**:
+3. **Run the implant**:
 
    ```bash
-   nimble build
+   ./target/debug/implant [port]  # Default port: 5555
    ```
 
-4. **Run the implant**:
+4. **Connect with client**:
 
    ```bash
-   ./implant [port]  # Default port: 5555
-   ```
-
-5. **Connect with client**:
-
-   ```bash
-   ./client  # Connects to 127.0.0.1:5555
+   ./target/debug/client  # Connects to 127.0.0.1:5555
    ```
 
 ## Security Considerations
 
-!!! warning "Important Safety Notice"
-    This tool is designed for educational purposes, authorized penetration testing, and OSCP preparation. Users are responsible for ensuring they have proper authorization before using this tool in any environment.
+!!! warning "Important Safety Notice" This tool is designed for educational purposes, authorized penetration testing, and OSCP preparation. Users are responsible for ensuring they have proper authorization before using this tool in any environment.
 
 - **No Authentication**: The protocol is unauthenticated by design
 - **Plain Text**: Communications are not encrypted
