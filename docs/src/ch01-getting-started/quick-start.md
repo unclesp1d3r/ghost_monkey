@@ -1,138 +1,212 @@
-# Quick Start Tutorial
+# Quick Start Guide
 
-This tutorial gets you up and running with Ghost Monkey in its current development state.
+This guide provides a rapid overview of Ghost_Monkey's core functionality with practical examples for immediate hands-on learning.
 
 ## Prerequisites
 
-- Rust 1.85 or later
-- Git
-- Unix-like system (Linux, macOS, WSL)
+- Ghost_Monkey built and installed (see [Installation](installation.md))
+- Two terminal windows available
+- Basic understanding of client-server architecture
 
-## 5-Minute Setup
+## 5-Minute Quick Start
 
-### 1. Install Rust (if needed)
+### 1. Basic Call-in Mode
 
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-source ~/.cargo/env
-```
-
-### 2. Clone and Build
+**Terminal 1 - Start Implant:**
 
 ```bash
-git clone https://github.com/unclesp1d3r/ghost_monkey.git
-cd ghost_monkey
-cargo build --release
+./target/release/ghost-implant --listen 127.0.0.1:8080
 ```
 
-### 3. Run the Binaries
+**Terminal 2 - Connect Client:**
 
 ```bash
-# Run the client
-./target/release/ghost-client
-
-# Run the implant
-./target/release/ghost-implant
+./target/release/ghost-client 127.0.0.1:8080
 ```
 
-You should see educational messages indicating these are placeholder implementations.
-
-## Understanding the Output
-
-Both binaries currently display:
-
-- Educational tool identification
-- Placeholder implementation notice
-
-This is expected behavior for the current development phase.
-
-## Exploring the Project
-
-### Project Structure
+**Execute Command:**
 
 ```bash
-# View the source structure
-tree src/
+ghost> ls
 ```
 
-### Documentation
+### 2. Callback Mode (Firewall Evasion)
+
+**Terminal 1 - Client Listens:**
 
 ```bash
-# Build and serve the documentation
-cargo install mdbook
-mdbook serve docs/
+./target/release/ghost-client --listen 127.0.0.1:8080
 ```
 
-Then open http://localhost:3000 in your browser.
-
-### Development Planning
+**Terminal 2 - Implant Connects Back:**
 
 ```bash
-# View the implementation tasks
-cat .kiro/specs/core-networking-protocol/tasks.md
+./target/release/ghost-implant --callback 127.0.0.1:8080
 ```
 
-## Development Workflow
+## Common Usage Patterns
 
-### Making Changes
+### Interactive Session
 
 ```bash
-# Make changes to source files
-# Build and test
-cargo build
-cargo test
+ghost> ls
+total 48
+drwxr-xr-x  8 user user 4096 Jan 15 10:30 .
+...
 
-# Format code
-cargo fmt
+ghost> pwd
+/home/user/ghost_monkey
 
-# Check for issues
-cargo clippy
+ghost> whoami
+user
+
+ghost> exit
+[INFO] Connection closed
 ```
 
-### Cross-Platform Building
+### Connection Status
+
+Monitor connection health:
 
 ```bash
-# Install cross-compilation tools
-cargo install cargo-zigbuild
-
-# Build for different targets (when implemented)
-cargo zigbuild --target x86_64-unknown-linux-gnu
+ghost> status
+[INFO] Connection: Active
+[INFO] Encryption: ChaCha20-Poly1305
+[INFO] Uptime: 00:02:34
+[INFO] Commands executed: 3
 ```
 
-## What's Next?
+## Command Reference
 
-1. **Read the Architecture**: Understand the planned system design
-2. **Review Tasks**: Check the implementation roadmap
-3. **Contribute**: Pick up development tasks
-4. **Stay Updated**: Follow the repository for progress
+### Allowed Commands
 
-## Current Limitations
+- `ls` - Directory listing
+- `pwd` - Current directory
+- `whoami` - Current user
+- `status` - Connection information
+- `help` - Show available commands
+- `exit` - Close connection
 
-Remember that Ghost Monkey is in early development:
+### Restricted Commands
 
-- No network functionality yet
-- No encryption implementation
-- No TUI interface
-- Placeholder command-line interfaces
+All other commands are blocked for safety:
 
-These features are planned and documented in the architecture guides.
+```bash
+ghost> cat /etc/passwd
+[ERROR] Command not allowed: cat
+[INFO] Only basic commands permitted in educational version
+```
 
-## Safety First
+## Configuration Options
 
-Even during development:
+### Client Options
 
-- Use isolated environments
-- Test only on localhost
-- Run as non-privileged user
-- Follow ethical guidelines
+```bash
+# Connect mode (default)
+./target/release/ghost-client <host>:<port>
 
-## Getting Help
+# Listen mode (callback)
+./target/release/ghost-client --listen <bind_addr>:<port>
 
-- Check the [Installation Guide](./installation.md) for setup issues
-- Review [Safety Guidelines](./safety-guidelines.md) for best practices
-- Read the [Architecture Overview](../ch02-architecture/overview.md) for design details
-- Visit the GitHub repository for the latest updates
+# Custom timeout
+./target/release/ghost-client --timeout 30 <host>:<port>
 
----
+# Verbose logging
+./target/release/ghost-client --verbose <host>:<port>
+```
 
-You're now ready to explore Ghost Monkey! Continue with the detailed [Architecture](../ch02-architecture/overview.md) documentation to understand the planned system design.
+### Implant Options
+
+```bash
+# Listen mode (default)
+./target/release/ghost-implant --listen <bind_addr>:<port>
+
+# Callback mode
+./target/release/ghost-implant --callback <host>:<port>
+
+# Custom retry interval
+./target/release/ghost-implant --retry-interval 5 --callback <host>:<port>
+```
+
+## Security Features in Action
+
+### Encrypted Communication
+
+All traffic is automatically encrypted:
+
+```bash
+[INFO] Performing ECDH key exchange...
+[INFO] Secure channel established (ChaCha20-Poly1305)
+[INFO] All communication now encrypted
+```
+
+### Authentication
+
+Each session uses ephemeral keys:
+
+```bash
+[INFO] Generating ephemeral keypair...
+[INFO] Exchanging public keys...
+[INFO] Session authenticated
+```
+
+### Heartbeat Monitoring
+
+Connection health is automatically monitored:
+
+```bash
+[DEBUG] Sending heartbeat...
+[DEBUG] Heartbeat acknowledged
+[INFO] Connection stable
+```
+
+## Troubleshooting Quick Fixes
+
+### Connection Issues
+
+```bash
+# Check if port is available
+netstat -ln | grep 8080
+
+# Try different port
+./target/release/ghost-implant --listen 127.0.0.1:9090
+```
+
+### Permission Issues
+
+```bash
+# Use unprivileged port
+./target/release/ghost-implant --listen 127.0.0.1:8080
+
+# Check binary permissions
+ls -la target/release/ghost-*
+```
+
+### Firewall Issues
+
+```bash
+# Test local connectivity
+telnet 127.0.0.1 8080
+
+# Check firewall rules (Linux)
+sudo iptables -L | grep 8080
+```
+
+## Next Steps
+
+- **Detailed Walkthrough**: [First Run](first-run.md) for step-by-step instructions
+- **Safety Guidelines**: [Safety Guidelines](safety-guidelines.md) for important security considerations
+- **Architecture**: [System Overview](../ch02-architecture/overview.md) to understand how it works
+- **Advanced Usage**: [Basic Usage](../ch08-exercises/basic-usage.md) for practical exercises
+
+## Educational Value
+
+This quick start demonstrates:
+
+- **Modern Cryptography**: ChaCha20-Poly1305 AEAD encryption
+- **Key Exchange**: X25519 ECDH for perfect forward secrecy
+- **Network Programming**: Bidirectional TCP communication
+- **Security Design**: Defense-in-depth with multiple safety layers
+- **Cross-Platform**: Consistent behavior across Unix-like systems
+
+Understanding these fundamentals through hands-on practice prepares you for advanced penetration testing concepts and OSCP scenarios covered in later chapters.

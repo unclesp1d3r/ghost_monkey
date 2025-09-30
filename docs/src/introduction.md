@@ -1,145 +1,62 @@
 # Introduction
 
-Welcome to the Ghost Monkey User Guide! This comprehensive documentation covers everything you need to know about Ghost Monkey, an educational UNIX backdoor written in Rust for authorized penetration testing and OSCP preparation.
+Welcome to the Ghost_Monkey educational backdoor implementation guide. This comprehensive resource is designed to teach the fundamentals of secure network programming, cryptographic protocols, and penetration testing techniques through hands-on implementation.
 
-## What is Ghost Monkey?
+## What is Ghost_Monkey?
 
-Ghost Monkey is an educational project designed to demonstrate advanced concepts in:
+Ghost_Monkey is an educational UNIX backdoor written in Rust, specifically designed for:
 
-- **Network Programming**: TCP and QUIC transport protocols
-- **Cryptography**: ChaCha20-Poly1305 AEAD encryption with ECDH key exchange
-- **System Programming**: Cross-platform process execution and terminal emulation
-- **Security Engineering**: Secure handshake protocols and authentication mechanisms
+- **Authorized penetration testing** in controlled environments
+- **OSCP certification preparation** and cybersecurity education
+- **Learning modern cryptographic protocols** and secure communication
+- **Understanding network programming** concepts and implementation patterns
 
-**Current Status**: The project is in early development with foundational structure and comprehensive planning in place.
+## Educational Focus
 
-## Educational Purpose
+This project serves as a practical learning tool that demonstrates:
 
-⚠️ **Important**: Ghost Monkey is designed exclusively for educational purposes, authorized penetration testing, and OSCP preparation. This tool should only be used in controlled environments with proper authorization.
+- **Modern cryptography**: ChaCha20-Poly1305 AEAD encryption with X25519 key exchange
+- **Network protocols**: TCP and QUIC transport layers with secure handshake mechanisms
+- **Cross-platform development**: Rust implementation targeting Unix-like systems
+- **Security best practices**: Input validation, privilege separation, and defensive programming
 
-### Learning Objectives
+## Safety and Ethics
 
-By studying and contributing to Ghost Monkey's development, you will learn:
+⚠️ **Important**: This tool is designed exclusively for educational purposes and authorized penetration testing. Users must:
 
-1. **Modern Cryptographic Protocols**: Understanding ECDH key exchange, AEAD encryption, and perfect forward secrecy
-2. **Network Programming**: Implementing secure client-server communication with multiple transport options
-3. **Cross-Platform Development**: Building and deploying Rust applications across different operating systems
-4. **Security Best Practices**: Implementing secure communication protocols and defensive programming techniques
-5. **Penetration Testing Concepts**: Understanding backdoor mechanisms and evasion techniques
+- Only use in controlled, authorized environments
+- Understand legal and ethical implications
+- Follow responsible disclosure practices
+- Respect privacy and security of systems
 
-## Planned Features
+## How to Use This Guide
 
-### Security Features
+This guide is structured to take you from basic concepts to advanced implementation:
 
-- **Strong Encryption**: ChaCha20-Poly1305 AEAD with 256-bit keys
-- **Perfect Forward Secrecy**: Ephemeral ECDH key exchange using X25519
-- **Replay Protection**: Nonce verification and timestamp validation
-- **Secure Handshake**: 3-way handshake with mutual authentication
+1. **Getting Started**: Installation, setup, and first run
+2. **Architecture**: Understanding the client-implant model and connection modes
+3. **Networking**: Deep dive into transport protocols and communication patterns
+4. **Cryptography**: Exploring modern encryption and authentication mechanisms
+5. **Implementation**: Code walkthrough and detailed explanations
+6. **Advanced Topics**: Performance optimization, debugging, and extensions
 
-### Connection Modes
-
-- **Call-in Mode**: Traditional client connects to listening implant
-- **Callback Mode**: Implant connects to listening client (firewall evasion)
-
-### User Interface
-
-- **Rich TUI**: Multi-pane terminal interface built with ratatui
-- **Real-time Updates**: Live connection status and command output
-- **Interactive Shell**: Full PTY support with terminal emulation
-
-### Cross-Platform Support
-
-- **Maximum Compatibility**: Supports all major Rust target platforms
-- **Advanced Cross-Compilation**: Uses cargo-zigbuild for superior cross-platform builds
-- **Universal Binaries**: Support for macOS universal2 binaries
-
-### Current Implementation
-
-The project currently includes:
-
-- Basic project structure with Cargo.toml configuration
-- Placeholder binary implementations for client and implant
-- Comprehensive development dependencies and tooling setup
-- Detailed planning and specification documents
-- Foundation for cross-platform development with cargo-zigbuild support
-
-## Architecture Overview
-
-Ghost Monkey implements a layered architecture:
-
-```mermaid
-graph TB
-    subgraph "Application Layer"
-        A1[TUI Interface]
-        A2[Command Execution]
-        A3[File Transfer]
-    end
-
-    subgraph "Protocol Layer"
-        P1[Message Handling]
-        P2[Handshake Logic]
-        P3[Heartbeat/Keepalive]
-    end
-
-    subgraph "Security Layer"
-        S1[ECDH Key Exchange]
-        S2[ChaCha20-Poly1305]
-        S3[Authentication]
-    end
-
-    subgraph "Transport Layer"
-        T1[TCP Transport]
-        T2[QUIC Transport]
-        T3[TLS Transport]
-    end
-
-    A1 --> P1
-    A2 --> P1
-    A3 --> P1
-    P1 --> S1
-    P2 --> S2
-    P3 --> S3
-    S1 --> T1
-    S2 --> T2
-    S3 --> T3
-```
-
-## Documentation Structure
-
-This guide is organized into several sections:
-
-- **Getting Started**: Installation, first run, and safety guidelines
-- **Architecture**: Deep dive into system design and components
-- **Networking**: Transport protocols and network programming concepts
-- **Cryptography**: Encryption, key exchange, and authentication mechanisms
-- **Implementation**: Code walkthrough and development details
-- **Cross-Platform**: Building and deploying across different platforms
-- **Security**: Threat modeling, defensive measures, and ethical considerations
-- **Exercises**: Practical tutorials and OSCP preparation scenarios
-- **Advanced Topics**: Extending the system and contributing to development
+Each chapter builds upon previous concepts while providing practical examples and exercises.
 
 ## Prerequisites
 
 To get the most out of this guide, you should have:
 
-- **Basic Rust Knowledge**: Understanding of Rust syntax, ownership, and async programming
-- **Network Programming Concepts**: Familiarity with TCP/IP, sockets, and client-server architecture
-- **Security Awareness**: Basic understanding of cryptography and security principles
-- **System Administration**: Comfort with command-line interfaces and system tools
+- Basic understanding of network programming concepts
+- Familiarity with Rust programming language
+- Knowledge of Unix-like operating systems
+- Understanding of basic cryptographic principles
 
 ## Getting Help
 
 If you encounter issues or have questions:
 
-1. Check the [Troubleshooting](./appendices/troubleshooting.md) section
-2. Review the [API Reference](./appendices/api-reference.md)
-3. Consult the [Glossary](./appendices/glossary.md) for terminology
-4. Visit the project repository for the latest updates
+- Check the [Troubleshooting](appendices/troubleshooting.md) section
+- Review the [API Reference](appendices/api-reference.md) for detailed function documentation
+- Consult the [Glossary](appendices/glossary.md) for terminology explanations
 
-## Legal and Ethical Notice
-
-Before proceeding, please read and understand the [Legal Disclaimer](./appendices/legal-disclaimer.md) and [Ethical Considerations](./ch07-security/ethical-considerations.md). This tool is provided for educational purposes only, and users are responsible for ensuring they have proper authorization before use.
-
----
-
-Ready to begin? Let's start with [Installation](./ch01-getting-started/installation.md)!
+Let's begin your journey into secure network programming and educational penetration testing!

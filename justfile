@@ -255,6 +255,7 @@ bench:
 
 audit:
     #cargo audit # Disabled due to issues with network-protocol
+
 deny:
     #cargo deny check # Disabled due to issues with network-protocol
 

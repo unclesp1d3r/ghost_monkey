@@ -1,273 +1,181 @@
 # Installation
 
-This chapter covers installing Ghost Monkey and its dependencies on various platforms.
+This chapter covers the installation and setup of Ghost_Monkey on various platforms.
 
-## System Requirements
+## Prerequisites
 
-### Minimum Requirements
+Before installing Ghost_Monkey, ensure you have the following prerequisites:
 
-- **Rust**: Version 1.85 or later (2024 edition)
-- **Operating System**: Unix-like systems (Linux, macOS, WSL on Windows)
-- **Memory**: 512 MB RAM (for compilation)
-- **Disk Space**: 100 MB for source code and dependencies
+### Rust Toolchain
 
-### Recommended Requirements
-
-- **Rust**: Latest stable version
-- **Memory**: 2 GB RAM (for faster compilation)
-- **Disk Space**: 1 GB for cross-compilation targets
-- **Network**: Internet connection for dependency downloads
-
-## Installing Rust
-
-If you don't have Rust installed, install it using rustup:
+Ghost_Monkey requires Rust 1.70 or later with the 2024 edition:
 
 ```bash
-# Install Rust using the official installer
+# Install Rust via rustup
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-# Follow the on-screen instructions, then reload your shell
-source ~/.cargo/env
+# Ensure you have the latest stable toolchain
+rustup update stable
+rustup default stable
 
-# Verify installation
-rustc --version
-cargo --version
+# Add required components
+rustup component add rustfmt clippy
 ```
 
-### Updating Rust
+### System Dependencies
 
-Keep Rust up to date for the latest features and security fixes:
-
-```bash
-# Update Rust toolchain
-rustup update
-
-# Update cargo and other tools
-cargo install-update -a
-```
-
-## Installing Ghost Monkey
-
-### From Source (Recommended)
-
-Clone and build from the official repository:
+#### Linux (Ubuntu/Debian)
 
 ```bash
-# Clone the repository
-git clone https://github.com/unclesp1d3r/ghost_monkey.git
-cd ghost_monkey
-
-# Build in release mode for optimal performance
-cargo build --release
-
-# Verify the build (currently shows placeholder messages)
-./target/release/ghost-client
-./target/release/ghost-implant
-```
-
-### Development Build
-
-For development and testing:
-
-```bash
-# Build in debug mode (faster compilation, slower execution)
-cargo build
-
-# Run tests to verify everything works
-cargo test
-
-# Generate documentation
-cargo doc --open
-```
-
-## Optional Dependencies
-
-### Cross-Compilation Tools
-
-For building binaries for different platforms:
-
-#### cargo-zigbuild (Recommended)
-
-```bash
-# Install cargo-zigbuild for superior cross-compilation
-cargo install cargo-zigbuild
-
-# Verify installation
-cargo zigbuild --version
-```
-
-#### Alternative: cross (Docker-based)
-
-```bash
-# Install cross for Docker-based cross-compilation
-cargo install cross
-
-# Verify installation
-cross --version
-```
-
-#### Alternative: cargo-xwin (Windows MSVC)
-
-```bash
-# Install cargo-xwin for Windows MSVC targets
-cargo install cargo-xwin
-
-# Verify installation
-cargo xwin --version
-```
-
-### Testing and Development Tools
-
-```bash
-# Install nextest for faster test execution
-cargo install cargo-nextest
-
-# Install additional development tools
-cargo install cargo-watch      # Auto-rebuild on file changes
-cargo install cargo-audit      # Security vulnerability scanning
-cargo install cargo-outdated   # Check for outdated dependencies
-```
-
-### Documentation Tools
-
-```bash
-# Install mdbook for building the user guide
-cargo install mdbook
-
-# Install mdbook plugins
-cargo install mdbook-mermaid    # Mermaid diagram support
-cargo install mdbook-toc        # Table of contents generation
-```
-
-## Platform-Specific Instructions
-
-### Linux
-
-#### Ubuntu/Debian
-
-```bash
-# Install system dependencies
 sudo apt update
 sudo apt install build-essential pkg-config libssl-dev
-
-# Install Rust and Ghost Monkey as described above
 ```
 
-#### CentOS/RHEL/Fedora
+#### Linux (CentOS/RHEL/Fedora)
 
 ```bash
-# Install system dependencies
-sudo dnf install gcc pkg-config openssl-devel
+# CentOS/RHEL
+sudo yum groupinstall "Development Tools"
+sudo yum install openssl-devel
 
-# Or on older systems:
-# sudo yum install gcc pkg-config openssl-devel
-
-# Install Rust and Ghost Monkey as described above
+# Fedora
+sudo dnf groupinstall "Development Tools"
+sudo dnf install openssl-devel
 ```
 
-#### Arch Linux
-
-```bash
-# Install system dependencies
-sudo pacman -S base-devel pkg-config openssl
-
-# Install Rust and Ghost Monkey as described above
-```
-
-### macOS
-
-#### Using Homebrew
+#### macOS
 
 ```bash
 # Install Xcode command line tools
 xcode-select --install
 
-# Install Rust and Ghost Monkey as described above
+# Or install via Homebrew
+brew install openssl pkg-config
 ```
 
-#### Using MacPorts
+## Building from Source
+
+### Clone the Repository
 
 ```bash
-# Install required tools
-sudo port install pkgconfig openssl
-
-# Install Rust and Ghost Monkey as described above
+git clone https://github.com/your-org/ghost_monkey.git
+cd ghost_monkey
 ```
 
-### Windows (WSL)
-
-Ghost Monkey is designed for Unix-like systems. On Windows, use WSL:
+### Build the Project
 
 ```bash
-# Install WSL2 (run in PowerShell as Administrator)
-wsl --install
+# Development build
+cargo build
 
-# Once in WSL, follow the Linux instructions above
+# Optimized release build
+cargo build --release
+```
+
+### Run Tests
+
+```bash
+# Run all tests
+cargo test
+
+# Run tests with output
+cargo test -- --nocapture
+```
+
+## Cross-Platform Builds
+
+Ghost_Monkey supports cross-compilation for multiple platforms using `cargo-zigbuild`:
+
+### Install cargo-zigbuild
+
+```bash
+# Install cargo-zigbuild (includes Zig)
+cargo install cargo-zigbuild
+
+# Or install via pip (if you have Python)
+pip install cargo-zigbuild
+```
+
+### Add Target Platforms
+
+```bash
+# Add common targets
+rustup target add x86_64-unknown-linux-gnu
+rustup target add aarch64-unknown-linux-gnu
+rustup target add x86_64-apple-darwin
+rustup target add aarch64-apple-darwin
+```
+
+### Cross-Compile
+
+```bash
+# Linux x86_64
+cargo zigbuild --target x86_64-unknown-linux-gnu --release
+
+# Linux ARM64
+cargo zigbuild --target aarch64-unknown-linux-gnu --release
+
+# macOS Intel
+cargo zigbuild --target x86_64-apple-darwin --release
+
+# macOS Apple Silicon
+cargo zigbuild --target aarch64-apple-darwin --release
+
+# macOS Universal Binary
+cargo zigbuild --target universal2-apple-darwin --release
+```
+
+## Binary Locations
+
+After building, the binaries will be located in:
+
+```
+target/
+├── debug/                  # Development builds
+│   ├── ghost-client       # Debug client binary
+│   └── ghost-implant      # Debug implant binary
+└── release/               # Optimized builds
+    ├── ghost-client       # Release client binary
+    └── ghost-implant      # Release implant binary
 ```
 
 ## Verification
 
-After installation, verify everything works:
+Verify your installation by running:
 
 ```bash
-# Check Rust version
-rustc --version
+# Check client version
+./target/release/ghost-client --version
 
-# Check Ghost Monkey binaries (currently show placeholder messages)
-./target/release/ghost-client
-./target/release/ghost-implant
+# Check implant version
+./target/release/ghost-implant --version
 
-# Run tests (currently minimal)
-cargo test
-
-# Generate and view documentation
-cargo doc --open
+# Run basic connectivity test
+./target/release/ghost-client --help
+./target/release/ghost-implant --help
 ```
 
-## Troubleshooting
+## Development Tools
 
-### Common Issues
-
-#### Compilation Errors
+For development and testing, install additional tools:
 
 ```bash
-# Update Rust toolchain
-rustup update
+# Fast test runner
+cargo install cargo-nextest
 
-# Clean and rebuild
-cargo clean
-cargo build --release
+# Documentation tools
+cargo install mdbook
+cargo install mdbook-mermaid
+cargo install mdbook-admonish
+
+# Code coverage
+cargo install cargo-tarpaulin
 ```
-
-#### Missing System Dependencies
-
-```bash
-# On Ubuntu/Debian
-sudo apt install build-essential pkg-config libssl-dev
-
-# On CentOS/RHEL/Fedora
-sudo dnf install gcc pkg-config openssl-devel
-```
-
-#### Network Issues
-
-```bash
-# Configure cargo to use a different registry mirror
-echo '[source.crates-io]
-replace-with = "mirror"
-
-[source.mirror]
-registry = "https://mirrors.ustc.edu.cn/crates.io-index"' >> ~/.cargo/config.toml
-```
-
-### Getting Help
-
-If you encounter issues:
-
-1. Check the [Troubleshooting](../appendices/troubleshooting.md) section
-2. Search existing issues on the GitHub repository
-3. Create a new issue with detailed error information
 
 ## Next Steps
 
-Once installation is complete, proceed to [First Run](./first-run.md) to test your installation and run Ghost Monkey for the first time.
+Once installation is complete, proceed to:
+
+- [First Run](first-run.md) - Your first Ghost_Monkey session
+- [Quick Start Guide](quick-start.md) - Basic usage examples
+- [Safety Guidelines](safety-guidelines.md) - Important safety considerations

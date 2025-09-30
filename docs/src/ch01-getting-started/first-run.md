@@ -1,136 +1,213 @@
 # First Run
 
-This chapter guides you through running Ghost Monkey for the first time and understanding its current development state.
+This chapter walks you through your first Ghost_Monkey session, demonstrating basic client-implant communication in a safe, controlled environment.
 
-## Current Implementation Status
+## Safety First
 
-Ghost Monkey is currently in early development with placeholder implementations. This guide shows you how to build and run the current version.
+⚠️ **Important Safety Guidelines**:
 
-## Building the Project
+- Always start with localhost (127.0.0.1) connections
+- Use isolated virtual machines or containers when possible
+- Run as a non-privileged user
+- Only use in authorized environments
 
-First, ensure you have Rust installed and clone the repository:
+## Basic Setup
+
+For your first run, we'll demonstrate the call-in mode where the client connects to a listening implant.
+
+### Terminal Setup
+
+You'll need two terminal windows:
+
+- **Terminal 1**: For the implant (server)
+- **Terminal 2**: For the client
+
+### Step 1: Start the Implant
+
+In Terminal 1, start the implant in listen mode:
 
 ```bash
-# Clone the repository
-git clone https://github.com/unclesp1d3r/ghost_monkey.git
+# Navigate to your Ghost_Monkey directory
 cd ghost_monkey
 
-# Build the project
-cargo build --release
+# Start the implant listening on localhost port 8080
+./target/release/ghost-implant --listen 127.0.0.1:8080
 ```
 
-## Running the Binaries
+You should see output similar to:
 
-### Ghost Client
+```
+[INFO] Ghost_Monkey Implant v0.1.0
+[WARN] Educational Use Only - Authorized Testing Only
+[INFO] Listening on 127.0.0.1:8080
+[INFO] Waiting for client connection...
+```
+
+### Step 2: Connect the Client
+
+In Terminal 2, connect the client to the implant:
 
 ```bash
-./target/release/ghost-client
+# Connect to the listening implant
+./target/release/ghost-client 127.0.0.1:8080
 ```
 
-**Expected Output:**
+You should see the client establish a connection:
 
-```text
-Ghost Monkey Client - Educational Tool
-This is a placeholder implementation.
+```
+[INFO] Ghost_Monkey Client v0.1.0
+[INFO] Connecting to 127.0.0.1:8080...
+[INFO] Performing secure handshake...
+[INFO] Handshake complete - secure channel established
+[INFO] Connection ready
+ghost>
 ```
 
-### Ghost Implant
+### Step 3: Execute Your First Command
+
+At the `ghost>` prompt, try the basic command:
 
 ```bash
-./target/release/ghost-implant
+ghost> ls
 ```
 
-**Expected Output:**
+You should see the directory listing from the implant's working directory:
 
-```text
-Ghost Monkey Implant - Educational Tool
-This is a placeholder implementation.
+```
+[INFO] Executing command: ls
+total 48
+drwxr-xr-x  8 user user 4096 Jan 15 10:30 .
+drwxr-xr-x  3 user user 4096 Jan 15 10:25 ..
+-rw-r--r--  1 user user  1234 Jan 15 10:30 Cargo.toml
+drwxr-xr-x  2 user user 4096 Jan 15 10:30 src
+drwxr-xr-x  2 user user 4096 Jan 15 10:30 target
+...
 ```
 
-## Understanding the Current State
+## Understanding the Output
 
-### What's Implemented
+### Implant Terminal
 
-- ✅ Basic project structure with Cargo.toml
-- ✅ Binary targets for client and implant
-- ✅ Development dependencies configured
-- ✅ Cross-compilation tooling setup
-- ✅ Comprehensive documentation structure
-- ✅ Educational safety guidelines
+The implant terminal will show:
 
-### What's Planned
+```
+[INFO] Client connected from 127.0.0.1:54321
+[INFO] Performing secure handshake...
+[INFO] Handshake complete - client authenticated
+[INFO] Received command: ls
+[INFO] Command executed successfully
+[INFO] Response sent (1024 bytes)
+```
 
-- 🔄 Network protocol implementation using `network-protocol` crate
-- 🔄 Secure handshake with ECDH key exchange
-- 🔄 ChaCha20-Poly1305 encryption
-- 🔄 Rich TUI interface with ratatui
-- 🔄 Interactive shell support
-- 🔄 File transfer capabilities
-- 🔄 Cross-platform compatibility
+### Client Terminal
 
-## Development Environment
+The client terminal displays:
 
-### Checking Dependencies
+- Command prompt (`ghost>`)
+- Command execution status
+- Command output (stdout/stderr)
+- Connection status information
 
-Verify your development environment:
+## Testing Different Scenarios
+
+### Valid Commands
+
+Try these safe commands:
 
 ```bash
-# Check Rust version (should be 1.85+)
-rustc --version
-
-# Check cargo version
-cargo --version
-
-# Run tests (currently minimal)
-cargo test
-
-# Generate documentation
-cargo doc --open
+ghost> ls
+ghost> pwd
+ghost> whoami
 ```
 
-### Development Tools
+### Invalid Commands
 
-Install recommended development tools:
+Try a command that's not allowed:
 
 ```bash
-# Enhanced test runner
-cargo install cargo-nextest
-
-# Cross-compilation support
-cargo install cargo-zigbuild
-
-# Documentation tools
-cargo install mdbook
+ghost> cat /etc/passwd
 ```
+
+You should see an error:
+
+```
+[ERROR] Command not allowed: cat
+[INFO] Only 'ls' command is permitted in this educational version
+```
+
+## Connection Modes
+
+### Call-in Mode (Default)
+
+What we just demonstrated:
+
+1. Implant listens on a port
+2. Client connects to the implant
+
+### Callback Mode
+
+For firewall evasion scenarios:
+
+**Terminal 1 (Client listening):**
+
+```bash
+./target/release/ghost-client --listen 127.0.0.1:8080
+```
+
+**Terminal 2 (Implant connecting back):**
+
+```bash
+./target/release/ghost-implant --callback 127.0.0.1:8080
+```
+
+## Troubleshooting First Run
+
+### Connection Refused
+
+If you see "Connection refused":
+
+- Ensure the implant is running and listening
+- Check that you're using the correct IP and port
+- Verify no firewall is blocking the connection
+
+### Permission Denied
+
+If you see permission errors:
+
+- Ensure you're running as the correct user
+- Check file permissions on the binaries
+- Try using a different port (above 1024)
+
+### Handshake Failures
+
+If the secure handshake fails:
+
+- Check that both binaries are the same version
+- Ensure no network interference
+- Try restarting both client and implant
+
+## Clean Shutdown
+
+To properly close the connection:
+
+1. In the client terminal, type `exit` or press `Ctrl+C`
+2. The implant will detect the disconnection and can accept new connections
 
 ## Next Steps
 
-1. **Explore the Code**: Review the placeholder implementations in `src/client/main.rs` and `src/implant/main.rs`
+Now that you've successfully run Ghost_Monkey:
 
-2. **Read the Specifications**: Check out the detailed planning in `.kiro/specs/core-networking-protocol/`
+- Read the [Quick Start Guide](quick-start.md) for more usage examples
+- Review [Safety Guidelines](safety-guidelines.md) for important security considerations
+- Explore the [Architecture Overview](../ch02-architecture/overview.md) to understand how it works
 
-3. **Contribute**: The project is open for contributions. See the task list for implementation opportunities
+## Educational Notes
 
-4. **Follow Development**: Watch the repository for updates as features are implemented
+This first run demonstrates several important concepts:
 
-## Safety Reminders
+- **Secure Communication**: All traffic is encrypted using ChaCha20-Poly1305
+- **Key Exchange**: ECDH key exchange establishes the secure channel
+- **Command Validation**: Only allowed commands can be executed
+- **Bidirectional Communication**: Both call-in and callback modes work identically
 
-Even in development:
-
-- Always run in isolated environments
-- Use localhost (127.0.0.1) for testing
-- Run as non-privileged user
-- Follow the [Safety Guidelines](./safety-guidelines.md)
-
-## Getting Help
-
-If you encounter issues:
-
-1. Check that Rust 1.85+ is installed
-2. Ensure all dependencies are available
-3. Review the [Installation](./installation.md) guide
-4. Check the project repository for known issues
-
----
-
-Ready to dive deeper? Continue with the [Architecture Overview](../ch02-architecture/overview.md) to understand the planned system design.
+Understanding these fundamentals prepares you for more advanced topics covered in later chapters.

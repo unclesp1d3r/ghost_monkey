@@ -1,20 +1,21 @@
 [book]
-authors = ["Ghost Monkey Contributors"]
-language = "en"
-multilingual = false
+title = "Ghost_Monkey: Educational Backdoor Implementation Guide"
+authors = ["Ghost_Monkey Contributors"]
+description = "A comprehensive guide to understanding and implementing secure network protocols for educational penetration testing"
 src = "src"
-title = "Ghost Monkey User Guide"
-description = "Comprehensive guide to Ghost Monkey - Educational UNIX backdoor for authorized penetration testing"
+language = "en"
 
-[preprocessor.mermaid]
-command = "mdbook-mermaid"
+[build]
+build-dir = "book"
 
 [output.html]
+theme = "src/theme"
 default-theme = "navy"
 preferred-dark-theme = "navy"
-smart-punctuation = true
+curly-quotes = true
 mathjax-support = true
 copy-fonts = true
+additional-css = ["src/theme/custom.css"]
 
 [output.html.search]
 enable = true
@@ -27,16 +28,16 @@ boost-paragraph = 1
 expand = true
 heading-split-level = 3
 
-[output.html.print]
-enable = true
-
 [output.html.fold]
-enable = false
-level = 0
+enable = true
+level = 1
 
 [output.html.playground]
-editable = false
-copyable = true
-copy-js = true
-line-numbers = false
 runnable = false
+
+[preprocessor.mermaid]
+command = "mdbook-mermaid"
+
+[preprocessor.admonish]
+command = "mdbook-admonish"
+assets_version = "3.0.2"

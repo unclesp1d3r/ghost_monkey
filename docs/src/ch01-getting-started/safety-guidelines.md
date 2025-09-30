@@ -1,230 +1,219 @@
 # Safety Guidelines
 
-⚠️ **Critical**: Ghost Monkey is an educational tool designed for authorized penetration testing and learning purposes only. This chapter outlines essential safety guidelines that must be followed when using this tool.
+Ghost_Monkey is designed as an educational tool for authorized penetration testing and cybersecurity learning. Following these safety guidelines ensures responsible and legal use.
 
-**Current Status**: The project is in early development with placeholder implementations. These guidelines apply to both current development and future usage.
+## Core Safety Principles
 
-## Legal and Ethical Requirements
+### 1. Authorization Only
 
-### Authorization is Mandatory
+**Always obtain explicit written authorization** before using Ghost_Monkey:
 
-- **Never use Ghost Monkey without explicit written authorization**
-- Only use on systems you own or have explicit permission to test
-- Ensure you have proper legal documentation before any testing
-- Understand that unauthorized use may violate local, state, and federal laws
+- ✅ **Authorized**: Your own systems, lab environments, CTF competitions
+- ✅ **Authorized**: Client systems with signed penetration testing agreements
+- ✅ **Authorized**: Educational environments with instructor permission
+- ❌ **Unauthorized**: Any system you don't own or lack explicit permission to test
 
-### Educational Context Only
+### 2. Controlled Environments
 
-- Use Ghost Monkey only for learning network security concepts
-- Employ it in controlled lab environments or personal systems
-- Focus on understanding the underlying technologies and protocols
-- Do not use for any malicious or unauthorized activities
+Start with safe, isolated environments:
+
+- **Localhost Testing**: Begin with `127.0.0.1` connections
+- **Virtual Machines**: Use isolated VMs or containers
+- **Lab Networks**: Dedicated testing networks separate from production
+- **Air-Gapped Systems**: Physically isolated systems when possible
+
+### 3. Non-Privileged Execution
+
+Run Ghost_Monkey with minimal privileges:
+
+```bash
+# Good: Run as regular user
+./ghost-implant --listen 127.0.0.1:8080
+
+# Avoid: Running as root (unnecessary and dangerous)
+sudo ./ghost-implant --listen 0.0.0.0:80
+```
 
 ## Technical Safety Measures
 
-### Network Isolation
+### Built-in Protections
+
+Ghost_Monkey includes several safety mechanisms:
+
+- **Command Allowlist**: Only `ls`, `pwd`, `whoami` commands permitted
+- **Input Validation**: Command length and character restrictions
+- **Localhost Binding**: Default binding to `127.0.0.1` only
+- **Educational Warnings**: Clear warnings about authorized use
+- **No Persistence**: No automatic startup or stealth mechanisms
+
+### Network Safety
+
+#### Recommended Network Configuration
 
 ```bash
-# Always start with localhost testing
-./target/release/ghost-implant --listen --bind 127.0.0.1:8080
-./target/release/ghost-client --connect 127.0.0.1:8080
+# Safe: Localhost only
+./ghost-implant --listen 127.0.0.1:8080
 
-# Use isolated networks for advanced testing
-# Set up a dedicated lab network: 192.168.100.0/24
+# Caution: Specific interface
+./ghost-implant --listen 192.168.1.100:8080
+
+# Dangerous: All interfaces (avoid in production)
+./ghost-implant --listen 0.0.0.0:8080
 ```
 
-### Virtual Machine Isolation
+#### Port Selection
 
-Recommended VM setup for safe testing:
+- **Unprivileged Ports**: Use ports > 1024 to avoid requiring root
+- **Non-Standard Ports**: Avoid well-known service ports (22, 80, 443, etc.)
+- **Firewall Considerations**: Ensure appropriate firewall rules
 
-```bash
-# Create isolated VMs with no external network access
-# Example using VirtualBox:
-VBoxManage createvm --name "ghost-monkey-lab" --register
-VBoxManage modifyvm "ghost-monkey-lab" --memory 2048 --cpus 2
-VBoxManage modifyvm "ghost-monkey-lab" --nic1 intnet --intnet1 "ghost-lab"
-```
+### Data Safety
 
-### User Privileges
+#### Command Output Handling
 
-```bash
-# Always run as non-privileged user
-# Create dedicated test user
-sudo useradd -m -s /bin/bash ghosttest
-sudo su - ghosttest
+- **Size Limits**: Large outputs are automatically truncated
+- **Sensitive Data**: Be aware that command outputs may contain sensitive information
+- **Logging**: All activities are logged for educational analysis
 
-# Verify you're not running as root
-whoami  # Should NOT return 'root'
-id      # Should show non-zero UID
-```
+#### File System Access
 
-## Built-in Safety Features
+Current limitations for safety:
 
-### Educational Warnings
+- **Read-Only Operations**: Only directory listing commands allowed
+- **No File Transfer**: File upload/download not implemented in basic version
+- **Working Directory**: Commands execute in implant's working directory
 
-Ghost Monkey displays warnings on startup:
+## Legal and Ethical Guidelines
 
-```
-[EDUCATIONAL WARNING] This tool is for authorized testing only
-[SAFETY NOTICE] Ensure you have proper authorization before use
-[LEGAL REMINDER] Unauthorized access to computer systems is illegal
-```
+### Legal Compliance
 
-### Command Restrictions
+- **Know Your Laws**: Understand local and international cybersecurity laws
+- **Document Authorization**: Keep written permission for all testing
+- **Scope Limitations**: Stay within agreed-upon testing scope
+- **Data Protection**: Respect privacy and data protection regulations
 
-The implant has built-in command restrictions:
+### Ethical Considerations
 
-- **Initial Implementation**: Only `ls` command is allowed
-- **Input Validation**: Commands are sanitized and length-limited
-- **No Privilege Escalation**: Runs with current user privileges only
-- **Resource Limits**: Timeouts prevent resource exhaustion
+- **Responsible Disclosure**: Report vulnerabilities through proper channels
+- **Minimize Impact**: Avoid disrupting normal operations
+- **Educational Purpose**: Use for learning, not malicious activities
+- **Professional Standards**: Follow industry ethical guidelines
 
-### Network Binding Restrictions
+## Development Safety
+
+### Code Safety
+
+When modifying Ghost_Monkey:
 
 ```rust
-// Example of safe binding configuration
-let config = TransportConfig {
-    bind_addr: "127.0.0.1:8080".parse().unwrap(), // Localhost only
-    connect_timeout: Duration::from_secs(30),      // Reasonable timeout
-    io_timeout: Duration::from_secs(60),           // Prevent hanging
-    max_packet_size: 1024 * 1024,                 // 1MB limit
-    ..Default::default()
-};
+// Good: Input validation
+fn validate_command(cmd: &str) -> Result<(), Error> {
+    if cmd.len() > MAX_COMMAND_LENGTH {
+        return Err(Error::CommandTooLong);
+    }
+    // Additional validation...
+}
+
+// Good: Allowlist approach
+const ALLOWED_COMMANDS: &[&str] = &["ls", "pwd", "whoami"];
+
+// Avoid: Blocklist approach (easy to bypass)
+const BLOCKED_COMMANDS: &[&str] = &["rm", "dd", "format"];
 ```
 
-## Recommended Testing Environments
+### Testing Safety
 
-### Home Lab Setup
-
-1. **Isolated Network**: Use a dedicated subnet with no internet access
-2. **Virtual Machines**: Run both client and implant in separate VMs
-3. **Snapshot Management**: Take VM snapshots before testing
-4. **Network Monitoring**: Use Wireshark to analyze traffic
-
-### Cloud Lab Environment
-
-```bash
-# Example using AWS with proper isolation
-# Create VPC with no internet gateway
-aws ec2 create-vpc --cidr-block 10.0.0.0/16
-
-# Create isolated subnets
-aws ec2 create-subnet --vpc-id vpc-xxx --cidr-block 10.0.1.0/24
-aws ec2 create-subnet --vpc-id vpc-xxx --cidr-block 10.0.2.0/24
-
-# Launch instances in isolated subnets
-# No NAT gateway or internet gateway attached
-```
-
-### Container Isolation
-
-```dockerfile
-# Example Docker setup for isolated testing
-FROM rust:1.85-slim
-
-# Create non-root user
-RUN useradd -m -s /bin/bash ghosttest
-USER ghosttest
-
-# Copy and build Ghost Monkey
-COPY --chown=ghosttest:ghosttest . /app
-WORKDIR /app
-RUN cargo build --release
-
-# Run with network isolation
-# docker run --network none ghost-monkey-test
-```
-
-## Monitoring and Logging
-
-### Enable Comprehensive Logging
-
-```bash
-# Set environment variables for detailed logging (when implemented)
-export RUST_LOG=debug
-export GHOST_MONKEY_LOG_LEVEL=trace
-
-# Current usage (placeholder implementations)
-./target/release/ghost-client 2>&1 | tee client.log
-./target/release/ghost-implant 2>&1 | tee implant.log
-
-# Planned usage (future implementation)
-# ./target/release/ghost-client --connect 127.0.0.1:8080 2>&1 | tee client.log
-# ./target/release/ghost-implant --listen --port 8080 2>&1 | tee implant.log
-```
-
-### Network Traffic Analysis
-
-```bash
-# Monitor network traffic during testing
-sudo tcpdump -i lo -w ghost-monkey-traffic.pcap port 8080
-
-# Analyze with Wireshark
-wireshark ghost-monkey-traffic.pcap
-```
+- **Isolated Testing**: Use containers or VMs for development
+- **Automated Tests**: Rely on unit tests rather than live testing
+- **Code Review**: Have others review security-sensitive changes
+- **Gradual Deployment**: Test changes incrementally
 
 ## Incident Response
 
 ### If Something Goes Wrong
 
-1. **Immediately Stop All Processes**:
+1. **Immediate Actions**:
 
-   ```bash
-   # Kill all Ghost Monkey processes
-   pkill -f ghost-client
-   pkill -f ghost-implant
-   ```
+   - Disconnect network connections
+   - Stop all Ghost_Monkey processes
+   - Document what happened
 
-2. **Document the Incident**:
+2. **Assessment**:
 
-   - Save all log files
-   - Record exact commands used
-   - Note any unexpected behavior
+   - Determine scope of impact
+   - Check logs for activities
+   - Assess any data exposure
 
-3. **Isolate Affected Systems**:
+3. **Reporting**:
 
-   - Disconnect from network if necessary
-   - Take system snapshots for analysis
+   - Notify appropriate authorities if required
+   - Follow organizational incident response procedures
+   - Document lessons learned
 
-4. **Report if Required**:
+### Emergency Shutdown
 
-   - Follow your organization's incident response procedures
-   - Contact appropriate authorities if unauthorized access occurred
+Quick commands to stop Ghost_Monkey:
 
-## Best Practices Checklist
+```bash
+# Kill all Ghost_Monkey processes
+pkill -f ghost-client
+pkill -f ghost-implant
 
-Before using Ghost Monkey, verify:
+# Check for remaining processes
+ps aux | grep ghost
 
-- [ ] You have explicit written authorization for all target systems
-- [ ] You understand the legal implications in your jurisdiction
-- [ ] You're using isolated test environments
-- [ ] You're running as a non-privileged user
-- [ ] You have proper logging and monitoring in place
-- [ ] You have an incident response plan
-- [ ] You understand the tool's capabilities and limitations
-- [ ] You've read and understood all documentation
+# Check network connections
+netstat -tulpn | grep ghost
+```
 
-## Educational Objectives
+## Educational Best Practices
 
-Remember that Ghost Monkey is designed to teach:
+### Learning Environment Setup
 
-- **Network Security Concepts**: Understanding how secure communication works
-- **Cryptographic Protocols**: Learning about modern encryption and key exchange
-- **System Security**: Understanding privilege separation and access controls
-- **Ethical Hacking**: Learning responsible disclosure and authorized testing practices
+1. **Dedicated Lab**: Set up isolated learning environment
+2. **Documentation**: Keep detailed notes of activities
+3. **Progression**: Start simple, gradually increase complexity
+4. **Peer Review**: Work with others for knowledge sharing
 
-## Prohibited Uses
+### Skill Development
 
-**Never use Ghost Monkey for**:
+- **Understand Before Using**: Learn the underlying concepts
+- **Practice Safely**: Use controlled environments for experimentation
+- **Stay Updated**: Keep up with security best practices
+- **Professional Development**: Pursue relevant certifications (OSCP, CEH, etc.)
 
-- Unauthorized access to any system
-- Malicious activities or causing harm
-- Violating privacy or confidentiality
-- Circumventing security measures without authorization
-- Any illegal activities under applicable laws
+## Compliance Checklist
 
-## Conclusion
+Before using Ghost_Monkey, verify:
 
-Safety is paramount when working with security tools. By following these guidelines, you can learn effectively while maintaining ethical and legal compliance. Remember: with great power comes great responsibility.
+- [ ] Written authorization obtained
+- [ ] Testing scope clearly defined
+- [ ] Isolated environment prepared
+- [ ] Backup and recovery plans in place
+- [ ] Legal compliance verified
+- [ ] Incident response plan ready
+- [ ] Educational objectives defined
+- [ ] Safety measures understood
 
-Next: [Quick Start Tutorial](./quick-start.md) - Learn how to safely run Ghost Monkey for the first time.
+## Resources
+
+### Legal Resources
+
+- Local cybersecurity laws and regulations
+- Professional ethical guidelines (EC-Council, (ISC)², etc.)
+- Organizational security policies
+
+### Technical Resources
+
+- [OWASP Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+- [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework)
+- [SANS Penetration Testing Resources](https://www.sans.org/white-papers/)
+
+### Educational Resources
+
+- Cybersecurity certification programs
+- University cybersecurity courses
+- Professional training programs
+- Capture The Flag (CTF) competitions
+
+Remember: The goal of Ghost_Monkey is education and authorized testing. When in doubt, err on the side of caution and seek guidance from experienced professionals.
