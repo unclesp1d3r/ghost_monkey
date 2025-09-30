@@ -4,7 +4,7 @@
   "description": "Automatically runs CI checks when source files change and fixes any failures including formatting, linting, compilation errors, test failures, security audits, and license compliance issues",
   "version": "1",
   "when": {
-    "type": "fileEdited",
+    "type": "userTriggered",
     "patterns": [
       "**/*.rs",
       "**/Cargo.toml",

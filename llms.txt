@@ -6,6 +6,7 @@ Ghost_Monkey is an educational tool that demonstrates network programming and re
 
 ## Documentation
 
+- [Agent Guidelines](AGENTS.md): AI agent guidance for working with the codebase and development workflow
 - [Contributing Guide](CONTRIBUTING.md): Development process, coding standards, and safety guidelines for contributors
 - [Documentation Index](docs/index.md): Project overview with quick start guide and architecture diagrams
 - [README](README.md): Main project documentation with features, installation, and usage examples
@@ -17,10 +18,58 @@ Ghost_Monkey is an educational tool that demonstrates network programming and re
 - [Core Protocol Tasks](.kiro/specs/core-networking-protocol/tasks.md): Implementation plan with development phases and testing strategy
 - [Product Overview](.kiro/steering/product.md): Educational purpose, key characteristics, and documentation standards
 - [Project Structure](.kiro/steering/structure.md): Repository layout, code organization patterns, and development conventions
-- [Rust Implementation Guide](RUST_IMPLEMENTATION_GUIDE.md): Practical steps for implementing Rust version based on original ghost_shell
-- [Rust Specification](RUST_SPEC.md): Comprehensive specification for rewriting to Rust with component details
 - [Technology Stack](.kiro/steering/tech.md): Rust toolchain, dependencies, build system, and cross-compilation setup
 
 ## Optional
 
+- [API Reference](docs/src/appendices/api-reference.md): Complete API documentation and reference guide
+- [Authentication](docs/src/ch04-cryptography/authentication.md): Authentication mechanisms and security protocols
+- [Basic Usage](docs/src/ch08-exercises/basic-usage.md): Hands-on exercises for learning basic functionality
+- [Cargo Zigbuild](docs/src/ch06-cross-platform/cargo-zigbuild.md): Cross-compilation setup using cargo-zigbuild
+- [ChaCha20-Poly1305](docs/src/ch04-cryptography/chacha20-poly1305.md): AEAD encryption implementation details
+- [Client Implementation](docs/src/ch05-implementation/client-implementation.md): Client-side architecture and implementation
+- [Client-Implant Architecture](docs/src/ch02-architecture/client-implant.md): Communication architecture between components
+- [Code Walkthrough](docs/src/ch05-implementation/code-walkthrough.md): Detailed code analysis and explanation
+- [Connection Modes](docs/src/ch02-architecture/connection-modes.md): Call-in and callback mode implementations
+- [Contributing](docs/src/ch09-advanced/contributing.md): Advanced contribution guidelines and development practices
+- [Cross-Platform Alternatives](docs/src/ch06-cross-platform/alternative-tools.md): Alternative cross-compilation tools and methods
+- [Custom Modifications](docs/src/ch08-exercises/custom-modifications.md): Exercises for extending and modifying the codebase
+- [Debugging Techniques](docs/src/ch09-advanced/debugging-techniques.md): Advanced debugging and troubleshooting methods
+- [Defensive Measures](docs/src/ch07-security/defensive-measures.md): Security hardening and defensive programming
+- [Deployment](docs/src/ch06-cross-platform/deployment.md): Deployment strategies and platform considerations
+- [Detection Evasion](docs/src/ch07-security/detection-evasion.md): Techniques for avoiding detection systems
+- [Encryption Basics](docs/src/ch04-cryptography/encryption-basics.md): Fundamental cryptographic concepts and implementation
+- [Ethical Considerations](docs/src/ch07-security/ethical-considerations.md): Ethical guidelines for educational backdoor usage
+- [Extending Protocols](docs/src/ch09-advanced/extending-protocols.md): Advanced protocol extension and customization
+- [Firewall Evasion](docs/src/ch03-networking/firewall-evasion.md): Network firewall bypass techniques
+- [First Run](docs/src/ch01-getting-started/first-run.md): Initial setup and first execution guide
+- [Forward Secrecy](docs/src/ch04-cryptography/forward-secrecy.md): Perfect forward secrecy implementation
+- [Glossary](docs/src/appendices/glossary.md): Technical terms and definitions
+- [Implant Implementation](docs/src/ch05-implementation/implant-implementation.md): Server-side architecture and implementation
+- [Installation](docs/src/ch01-getting-started/installation.md): Installation instructions and requirements
+- [Introduction](docs/src/introduction.md): Project introduction and educational context
+- [Key Exchange](docs/src/ch04-cryptography/key-exchange.md): ECDH key exchange protocol implementation
+- [Lab Environments](docs/src/ch08-exercises/lab-environments.md): Setting up safe testing environments
+- [Legal Compliance](docs/src/ch07-security/legal-compliance.md): Legal considerations and compliance requirements
+- [Legal Disclaimer](docs/src/appendices/legal-disclaimer.md): Legal disclaimers and usage restrictions
 - [License](LICENSE): Project licensing terms and conditions
+- [NAT Traversal](docs/src/ch03-networking/nat-traversal.md): Network address translation bypass techniques
+- [Network Protocol Crate](docs/src/ch03-networking/network-protocol-crate.md): Usage guide for network-protocol dependency
+- [OSCP Scenarios](docs/src/ch08-exercises/oscp-scenarios.md): OSCP exam preparation exercises and scenarios
+- [Overview](docs/src/ch02-architecture/overview.md): High-level system architecture overview
+- [Performance Tuning](docs/src/ch09-advanced/performance-tuning.md): Optimization techniques and performance analysis
+- [Platform Specific](docs/src/ch06-cross-platform/platform-specific.md): Platform-specific implementation details
+- [Protocol Analysis](docs/src/ch08-exercises/protocol-analysis.md): Network protocol analysis exercises
+- [Protocol Handling](docs/src/ch05-implementation/protocol-handling.md): Message protocol implementation and handling
+- [Protocol Stack](docs/src/ch02-architecture/protocol-stack.md): Network protocol stack architecture
+- [QUIC Protocol](docs/src/ch03-networking/quic-protocol.md): QUIC transport protocol implementation
+- [Quick Start](docs/src/ch01-getting-started/quick-start.md): Quick start guide for immediate usage
+- [References](docs/src/appendices/references.md): External references and additional resources
+- [Safety Guidelines](docs/src/ch01-getting-started/safety-guidelines.md): Safety practices for educational usage
+- [Summary](docs/src/SUMMARY.md): Documentation table of contents and structure
+- [TCP Fundamentals](docs/src/ch03-networking/tcp-fundamentals.md): TCP networking fundamentals and implementation
+- [Testing Strategies](docs/src/ch09-advanced/testing-strategies.md): Comprehensive testing approaches and methodologies
+- [Threat Model](docs/src/ch07-security/threat-model.md): Security threat analysis and mitigation strategies
+- [Transport Layer](docs/src/ch02-architecture/transport-layer.md): Transport layer architecture and protocols
+- [Troubleshooting](docs/src/appendices/troubleshooting.md): Common issues and troubleshooting guide
+- [TUI Interface](docs/src/ch05-implementation/tui-interface.md): Terminal user interface implementation details
