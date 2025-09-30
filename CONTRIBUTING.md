@@ -158,16 +158,19 @@ kill $IMPLANT_PID
 ### Test Cases
 
 1. **Connection Tests**:
+
    - Successful connection to implant
    - Connection failure handling
    - Socket cleanup on disconnect
 
 2. **Command Execution Tests**:
+
    - Basic command execution (`whoami`, `pwd`)
    - Error handling for invalid commands
    - Output capture and display
 
 3. **Protocol Tests**:
+
    - Message format validation
    - Connection state management
    - Graceful shutdown
@@ -245,16 +248,19 @@ test: add integration test for client connection
    ```
 
 2. **Make changes**:
+
    - Write code following style guidelines
    - Add appropriate tests
    - Update documentation if needed
 
 3. **Test thoroughly**:
+
    - Run all tests in isolated environment
    - Verify no external network access
    - Check for proper error handling
 
 4. **Submit PR**:
+
    - Create pull request with clear description
    - Include test results and screenshots if relevant
    - Request review from maintainers
