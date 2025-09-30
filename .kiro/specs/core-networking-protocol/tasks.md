@@ -2,14 +2,14 @@
 
 - [ ] 1. Set up project structure and core dependencies
 
-  - [ ] 1.1 Create Cargo.toml with core dependencies
+  - [x] 1.1 Create Cargo.toml with core dependencies
 
     - Add network-protocol, tokio, serde, anyhow, thiserror dependencies
     - Configure binary targets for ghost-client and ghost-implant
     - Set up workspace structure and metadata
     - _Requirements: 7.1_
 
-  - [ ] 1.2 Add development and testing dependencies
+  - [x] 1.2 Add development and testing dependencies
 
     - Add nextest, insta, proptest, criterion to dev-dependencies
     - Configure cargo-zigbuild for cross-platform builds
