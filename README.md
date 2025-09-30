@@ -1,4 +1,10 @@
-![GitHub](https://img.shields.io/github/license/unclesp1d3r/ghost_monkey) ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/unclesp1d3r/ghost_monkey)
+![GitHub License](https://img.shields.io/github/license/unclesp1d3r/ghost_monkey?style=for-the-badge)
+
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/unclesp1d3r/ghost_monkey/ci.yml?style=for-the-badge) ![docs.rs](https://img.shields.io/docsrs/ghost_monkey?style=for-the-badge) ![Deps.rs Repository Dependencies](https://img.shields.io/deps-rs/repo/github/unclesp1d3r/ghost_monkey?style=for-the-badge)
+
+![Codecov](https://img.shields.io/codecov/c/github/unclesp1d3r/ghost_monkey?style=for-the-badge) [![GitHub issues](https://img.shields.io/github/issues/unclesp1d3r/ghost_monkey?style=for-the-badge)](https://github.com/unclesp1d3r/ghost_monkey/issues) ![GitHub last commit](https://img.shields.io/github/last-commit/unclesp1d3r/ghost_monkey?style=for-the-badge)
+
+![Crates.io Downloads (latest version)](https://img.shields.io/crates/dv/ghost_monkey?style=for-the-badge) ![GitHub Sponsors](https://img.shields.io/github/sponsors/unclesp1d3r?style=for-the-badge)
 
 # Ghost_Monkey
 
